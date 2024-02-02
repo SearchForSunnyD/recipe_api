@@ -1,0 +1,57 @@
+{% if results %}
+    {% for recipe in results.recipes %}
+        <div class="card w-100 bg-light rounded">
+            <div class="row g-0">
+                <div class="col-1">
+                    <img src="{{ recipe.image }}"
+                         alt="Pic of {{ recipe.label }}"
+                         class="img-fluid rounded border">
+                </div>
+                <div class="col">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <h5 class="card-title">{{ recipe.label }}</h5>
+                            <a class="mx-2" href="{{ recipe.url }}" target="_blank"><span class="badge bg-primary">{{ recipe.source }}</span></a>
+                            <a class="btn btn-outline-secondary btn-sm ms-auto"
+                               id="details"
+                               href="/recipe/{{ recipe.id }}"
+                               target="_blank">Details</a>
+                        </div>
+                        {% if recipe.dishType %}
+                            {% for detail in recipe.dishType %}
+                                <span class="badge text-light text-bg-secondary">{{ detail.capitalize() }}</span>
+                            {% endfor %}
+                        {% endif %}
+                        {% if recipe.mealType %}
+                            {% for detail in recipe.mealType %}
+                                <span class="badge text-light text-bg-secondary">{{ detail.capitalize() }}</span>
+                            {% endfor %}
+                        {% endif %}
+                        {% if recipe.cuisineType %}
+                            {% for detail in recipe.cuisineType %}
+                                <span class="badge text-light text-bg-secondary">{{ detail.capitalize() }}</span>
+                            {% endfor %}
+                        {% endif %}
+                        <p class="card-text">
+                            {% if recipe.ingredients|length != 0 %}
+                                <small class="text-body-secondary">Ingredients: {{ recipe.ingredients|length }}</small>
+                            {% endif %}
+                            {% if recipe.yield_value != 0 %}
+                                | <small class="text-body-secondary">Yield: {{ recipe.yield_value|round|int }} servings</small>
+                            {% endif %}
+                            {% if recipe.calories != 0 %}
+                                | <small class="text-body-secondary">Calories: {{ ((recipe.calories)/recipe.yield_value)|round|int }} per serving</small>
+                            {% endif %}
+                            {% if recipe.totalTime != 0 %}
+                                | <small class="text-body-secondary"> &#x1F551 {{ (recipe.totalTime//60)|round|int }} hr {{ (recipe.totalTime%60)|round|int }} min</small>
+                            {% endif %}
+                        </p>
+                        {% for label in recipe.healthLabels %}
+                            <span class="badge rounded-pill text-light text-bg-info">{{ label }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
