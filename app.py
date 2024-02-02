@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from forms import UserAddForm, LoginForm, FilterForm, build_filters
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("postgresql:///recipe_app")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "postgresql:///recipe_app")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 connect_db(app)
@@ -18,7 +18,7 @@ with app.app_context():
     db.create_all()
     build_filters()
 
-app.config["SECRET_KEY"] = "I'LL NEVER TELL!!"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "it's a secret")
 
 CURR_USER_KEY = "curr_user"
 
