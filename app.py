@@ -4,12 +4,13 @@ Web application using Flask for a recipe sharing platform.
 
 from flask import Flask, redirect, render_template, url_for, session, request, flash, g
 from db_models import db, connect_db, User
+import os
 from models import Handler
 from sqlalchemy.exc import IntegrityError
 from forms import UserAddForm, LoginForm, FilterForm, build_filters
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///recipe_app"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("postgresql:///recipe_app")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 connect_db(app)
